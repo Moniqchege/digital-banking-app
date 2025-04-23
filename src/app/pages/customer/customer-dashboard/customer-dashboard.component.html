@@ -1,1 +1,53 @@
-<p>customer-dashboard works!</p>
+<div class="container mt-4">
+    <!-- Welcome Section -->
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Welcome, {{firstName}}!</h1>
+      </div>
+    </div>
+  
+    <div class="row mt-4 align-items-center">
+        <app-doughnut-chart
+        [chartType]="'doughnut'"
+        [chartData]="accountStatusData"
+        [chartOptions]="accountStatusOptions"
+        ></app-doughnut-chart>
+      
+      <div class="col-md-6 account-summary">
+        <h3>Bank Accounts: 3</h3>
+        <h4>Current Total Balance: ${{currentBalance}}</h4>
+      </div>
+    </div>
+  
+    <!-- Recent Transactions -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <h3>Recent Transactions</h3>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Account No</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of recentTransactions">
+              <td>{{ transaction.accountNo }}</td>
+              <td>\${{ transaction.amount }}</td>
+              <td [ngClass]="{
+                'text-success': transaction.status === 'Success',
+                'text-warning': transaction.status === 'Pending',
+                'text-danger': transaction.status === 'Rejected'
+              }">
+                {{ transaction.status }}
+              </td>
+              <td>{{ transaction.date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
