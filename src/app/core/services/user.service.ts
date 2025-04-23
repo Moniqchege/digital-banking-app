@@ -1,40 +1,54 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { User } from '../models/user.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'https://freeapi.miniprojectideas.com/api/JWT';
-  private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
+  private loggedInUserSubject = new BehaviorSubject<any>(null);
+  loggedInUser$ = this.loggedInUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     const user = localStorage.getItem('loggedInUser');
-    if (user) this.currentUserSubject.next(JSON.parse(user));
+    if (user) {
+      this.loggedInUserSubject.next(JSON.parse(user));
+    }
   }
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/Login`, { email, password }).pipe(
-      tap(user => {
-        localStorage.setItem('loggedInUser', JSON.stringify(user));
-        localStorage.setItem('token', user.token || '');
-        this.currentUserSubject.next(user);
-      })
+
+  register(user: any) {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const exists = users.find(
+      (u: any) =>
+        (u.email || '').trim().toLowerCase() ===
+        (user.email || '').trim().toLowerCase()
     );
+    if (exists) throw new Error('User already exists');
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
   }
 
-  register(user: User): Observable<any> {
-    return this.http.post(`${this.apiUrl}/CreateNewUser`, user);
+  login(email: string, password: string) {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+    const adminEmail = 'admin@horizon.com';
+    const adminPassword = 'Horizon'
+
+    if (email === adminEmail && password === adminPassword) {
+      const adminUser = { email: adminEmail, role: 'Admin' };
+      localStorage.setItem('loggedInUser', JSON.stringify(adminUser));
+      this.loggedInUserSubject.next(adminUser);
+      return adminUser;
+    }
+
+    const user = users.find((u: any) => u.email === email && u.password === password);
+    console.log('Logged in as:', user);
+    if (!user) throw new Error('Invalid Email or Password');
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    this.loggedInUserSubject.next(user); 
+    return user;
   }
 
-  logout(): void {
+  logout() {
     localStorage.removeItem('loggedInUser');
-    localStorage.removeItem('token');
-    this.currentUserSubject.next(null);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
+    this.loggedInUserSubject.next(null);
   }
 }

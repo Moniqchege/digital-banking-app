@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Transfer Funds</h2>
+  
+    <form #transferForm="ngForm" (ngSubmit)="onSubmit(transferForm)" novalidate>
+      <!-- Account Number Field -->
+      <div class="mb-3">
+        <label for="accountNumber" class="form-label">Account Number</label>
+        <input
+          type="text"
+          class="form-control"
+          id="accountNumber"
+          name="accountNumber"
+          required
+          pattern="^\d{10}$"
+          [(ngModel)]="transfer.accountNumber"
+          #accountNumber="ngModel"
+        />
+        <div *ngIf="accountNumber.invalid && accountNumber.touched" class="invalid-feedback">
+          Account Number is required and should be 10 digits long.
+        </div>
+      </div>
+  
+      <!-- Amount Field -->
+      <div class="mb-3">
+        <label for="amount" class="form-label">Amount</label>
+        <input
+          type="number"
+          class="form-control"
+          id="amount"
+          name="amount"
+          required
+          min="1"
+          [(ngModel)]="transfer.amount"
+          #amount="ngModel"
+        />
+        <div *ngIf="amount.invalid && amount.touched" class="invalid-feedback">
+          Amount is required and must be greater than 0.
+        </div>
+      </div>
+  
+      <!-- Transfer Button -->
+      <div class="text-center">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="transferForm.invalid"
+        >
+          Transfer Funds
+        </button>
+      </div>
+    </form>
+  </div>
+  

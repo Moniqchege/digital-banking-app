@@ -22,8 +22,8 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/customer/dashboard/dashboard.component').then(
-            (m) => m.DashboardComponent
+          import('./pages/customer/customer-dashboard/customer-dashboard.component').then(
+            (m) => m.CustomerDashboardComponent
           ),
       },
       {
@@ -47,6 +47,20 @@ export const routes: Routes = [
             (m) => m.TransactionsComponent
           ),
       },
+      {
+        path: 'transfer',
+        loadComponent: () =>
+          import('./pages/customer/transfer/transfer.component').then(
+            (m) => m.TransferComponent
+          ),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/customer/profile/profile.component').then(
+            (m) => m.ProfileComponent
+          ),
+      },
     ],
   },
 
@@ -61,8 +75,8 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('./pages/admin/dashboard/dashboard.component').then(
-            (m) => m.DashboardComponent
+          import('./pages/admin/admin-dashboard/admin-dashboard.component').then(
+            (m) => m.AdminDashboardComponent
           ),
       },
       {

@@ -1,38 +1,74 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Logo</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">☰
+    <a class="navbar-brand" href="#">Horizon</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mynavbar"
+    >
+      ☰
     </button>
+
     <div class="collapse navbar-collapse" id="mynavbar">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="banker-list">Bankers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="customer-list">Customers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="loan-application-list">Applications</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="new-loan-form">New Loans</a>
-        </li>
-      </ul>
-      <div>
-        <form class="d-flex">
-          <span class="me-2 text-white p-1"></span>
-          <button class="btn btn-warning" type="button">Logout</button>
-        </form>
+      <ng-container *ngIf="userRole === 'Admin'">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/accounts">Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/transactions"
+              >Transactions</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/customers">Customers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin/audit-logs">Audit Logs</a>
+          </li>
+        </ul>
+      </ng-container>
+      <ng-container *ngIf="userRole === 'Customer'">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/customer/dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/customer/accounts">Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/customer/transactions">Transactions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/customer/transfer">Transfer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/customer/notifications">Notifications</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/customer/profile">Profile</a>
+          </li>
+        </ul>
+      </ng-container>
+      
+
+      <div class="d-flex">
+        <button *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/login">
+          Login
+        </button>
+
+        <button
+          *ngIf="isLoggedIn"
+          class="btn btn-warning ms-2"
+          (click)="logout()"
+        >
+          Logout
+        </button>
       </div>
-      
-      <ng-template #showLogin>
-        <form class="d-flex">
-          <button class="btn btn-primary" type="button" routerLink="login">Login</button>
-        </form>
-      </ng-template>
-      
-      
-      
     </div>
   </div>
 </nav>
