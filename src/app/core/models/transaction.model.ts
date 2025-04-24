@@ -1,17 +1,8 @@
-
-export interface Account {
-    id: string;
-    appwriteItemId: string;
-    name: string;
-  }
-  
-  export interface Transaction {
-    id: string;
-    name: string;
-    date: string;
-    amount: number;
-    type: string;
-    paymentChannel: string;
-    category: string;
-  }
-  
+export interface Transaction {
+  name: string;
+  date: string;
+  type: 'Deposit' | 'Withdrawal';
+  status: 'Completed' | 'Pending';
+  amount: number;
+  category: 'Deposit' | 'Withdraw';
+}

@@ -8,59 +8,84 @@
 
       <article class="account-details">
         <div class="account-info">
-          <h1 class="user-name">{{ userName }}</h1>
+          <h1 class="user-name">{{ fullName }}</h1>
           <h2 class="card-mask">●● / ●●</h2>
         </div>
-        <p class="account-number">●●●● ●●●● ●●●● <span class="mask">{{ account.mask }}</span></p>
+        <p class="account-number">
+          ●●●● ●●●● ●●●● <span class="mask">{{ account.mask }}</span>
+        </p>
       </article>
     </div>
 
     <div class="bank-card_icons">
-      <i class="fa-brands fa-cc-mastercard fa-2xl ml-5 text-white"></i>
+      <i class="fa-brands fa-cc-mastercard fa-2xl text-white"></i> <!-- Moved to right -->
     </div>
 
-    <img src="/assets/icons/lines.png" width="316" height="190" alt="lines" class="card-background" />
+    <img
+      src="/assets/icons/lines.png"
+      width="316"
+      height="190"
+      alt="lines"
+      class="card-background"
+    />
+
+    <div class="account-actions">
+      <button (click)="openTransactionModal(account, 'deposit')">
+        Deposit
+      </button>
+      <button (click)="openTransactionModal(account, 'withdraw')">
+        Withdraw
+      </button>
+    </div>
   </div>
 </div>
 
 
 
 <div class="modal-overlay" *ngIf="showModal" (click)="toggleModal()">
-  <div class="modal" (click)="$event.stopPropagation()">
-    <h2>Create New Account</h2>
-    <form (ngSubmit)="createAccount()" #accountForm="ngForm">
-      <input
-        type="text"
-        placeholder="Account Name"
-        [(ngModel)]="newAccount.name"
-        name="name"
-        required
-      />
+  <div class="modal-dialog-centered modal" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-body p-4">
+        <div class="text-center mb-4 position-relative">
+          <h4 class="modal-title fw-bold">
+            {{ transactionType | titlecase }} Money
+          </h4>
+          <button
+            aria-label="Close modal"
+            type="button"
+            class="btn-close position-absolute top-0 end-0 m-3"
+            (click)="toggleModal()"
+          ></button>
+        </div>
 
-      <select
-        title="Select Account Type"
-        [(ngModel)]="newAccount.type"
-        name="type"
-        required
-      >
-        <option value="" disabled selected>Select Type</option>
-        <option value="Savings">Savings</option>
-        <option value="Current">Current</option>
-        <option value="Investment">Investment</option>
-      </select>
-
-      <input
-        type="number"
-        placeholder="Initial Balance"
-        [(ngModel)]="newAccount.balance"
-        name="balance"
-        required
-      />
-
-      <div class="modal-buttons">
-        <button type="submit" [disabled]="!accountForm.form.valid">Create</button>
-        <button type="button" class="cancel-btn" (click)="toggleModal()">Cancel</button>
+        <form (ngSubmit)="processTransaction()" #transactionForm="ngForm">
+          <div class="mb-3">
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Amount"
+              [(ngModel)]="transactionAmount"
+              name="amount"
+              required
+              min="1"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary w-100 mb-3"
+            [disabled]="!transactionForm.form.valid"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger w-100"
+            (click)="toggleModal()"
+          >
+            Cancel
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </div>

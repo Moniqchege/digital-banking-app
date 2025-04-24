@@ -1,37 +1,38 @@
 <div class="transactions-container">
   <h2 class="section-title">Recent Transactions</h2>
 
+  <div class="transaction-header">
+    <span class="header-item">Transaction Name</span>
+    <span class="header-item">Amount</span>
+    <span class="header-item">Status</span>
+    <span class="header-item">Date</span>
+    <span class="header-item">Category</span>
+  </div>
+
   <div *ngFor="let txn of transactions" class="transaction-card">
-    <div class="transaction-details">
-      <div>
-        <h3 class="transaction-name">{{ txn.name }}</h3>
-        <p class="transaction-date">{{ txn.date }}</p>
-      </div>
-      <div class="transaction-type-badge" [ngClass]="txn.type.toLowerCase()">
-        {{ txn.type }}
-      </div>
-    </div>
-
-    <div class="transaction-footer">
+    <div class="transaction-row">
+      <span>{{ txn.name }}</span>
       <span
-        class="transaction-status"
-        [ngClass]="{
-          completed: txn.status === 'Completed',
-          pending: txn.status === 'Pending'
-        }"
-      >
-        {{ txn.status }}
-      </span>
-
-      <span
-        class="transaction-amount"
         [ngClass]="{
           credit: txn.amount > 0,
           debit: txn.amount < 0
         }"
+        >{{ formatAmount(txn.amount) }}</span
       >
-        {{ formatAmount(txn.amount) }}
-      </span>
+      <span
+        class="transaction-item status"
+        [ngClass]="{
+          completed: txn.status === 'Completed',
+          pending: txn.status === 'Pending'
+        }"
+        >{{ txn.status }}</span
+      >
+      <span>{{ txn.date }}</span>
+      <span
+        class="transaction-item category"
+        [ngClass]="txn.category.toLowerCase()"
+        >{{ txn.category }}</span
+      >
     </div>
   </div>
 </div>

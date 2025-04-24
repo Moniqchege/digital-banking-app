@@ -11,7 +11,6 @@
   border-radius: 20px;
   padding: 20px;
   width: 450px;
-  
   gap: 12px;
   color: white;
   background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
@@ -25,13 +24,17 @@
   text-align: left;
 }
 
-.account-name {
+h1 {
   font-size: 1.5rem;
+}
+
+.account-name {
+  font-size: 1.1rem; 
   font-weight: bold;
 }
 
 .account-balance {
-  font-size: 1.2rem;
+  font-size: 0.8rem; 
   margin-top: 0.2rem;
 }
 
@@ -46,22 +49,22 @@
 }
 
 .account-number {
-  font-size: 1.1rem;
+  font-size: 0.9rem; 
   margin-top: 0.25rem;
   letter-spacing: 1.2px;
 }
 
 .mask {
-  font-size: 1.3rem;
+  font-size: 0.9rem; 
   font-weight: bold;
   color: #ffeaa7;
 }
 
 .bank-card_icons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 10;
 }
 
 .card-background {
@@ -72,21 +75,24 @@
   opacity: 0.1;
 }
 
-.add-account-btn {
-  margin-top: 2rem;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, #7f5af0, #00c6ff);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s ease;
-  font-weight: bold;
+.account-actions {
+  display: flex;
+  justify-content: end; 
+  gap: 10px;
+  margin-top: 20px; 
 }
 
-.add-account-btn:hover {
-  background-color: #2575fc;
+.account-actions button {
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.account-actions button:hover {
+  background-color: #218838;
 }
 
 .modal-overlay {
@@ -95,49 +101,131 @@
   left: 0;
   width: 100%;
   height: 100%;
-  -webkit-backdrop-filter: blur(3px); 
-  backdrop-filter: blur(3px); 
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6); 
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; 
+  z-index: 999; 
 }
-
 
 .modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 400px;
+  padding: 30px;
+  border-radius: 10px;
+  width: 550px;
+  max-width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1000; 
+  height: auto;
+  max-height: 80vh;
 }
 
-.modal h2 {
-  margin-bottom: 1rem;
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
 }
 
-.modal input, .modal select {
-  width: 100%;
-  padding: 0.7rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.modal button {
-  padding: 0.6rem 1.2rem;
-  margin-right: 0.5rem;
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5rem;
+  background: transparent;
   border: none;
-  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+}
+
+.modal-close:hover {
+  color: #e74c3c;
+}
+
+.modal-body {
+  padding: 10px;
+}
+
+.modal form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-primary, .btn-danger {
+  padding: 10px 15px;
+  border-radius: 6px;
+  width: 48%;
   cursor: pointer;
 }
 
-.modal button[type="submit"] {
-  background-color: #6a11cb;
+.btn-primary {
+  background-color: #007bff;
   color: white;
 }
 
-.modal button[type="button"] {
-  background-color: #ccc;
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+@media (max-width: 768px) {
+  .modal {
+    width: 90%; 
+    padding: 20px;
+  }
+  .modal-title {
+    font-size: 1.2rem; 
+  }
+  .modal-close {
+    top: 5px;
+    right: 10px;
+    font-size: 1.3rem;
+  }
+  .btn-primary, .btn-danger {
+    padding: 10px 12px; 
+    width: 48%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: 95%; 
+    padding: 15px;
+  }
+  .modal-title {
+    font-size: 0.8rem; 
+  }
+  .modal-close {
+    top: 5px;
+    right: 5px;
+    font-size: 1.2rem;
+  }
+  .btn-primary, .btn-danger {
+    padding: 8px 12px; 
+    width: 100%; 
+  }
 }

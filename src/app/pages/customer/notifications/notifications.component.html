@@ -1,33 +1,43 @@
 <div class="container my-5">
-    <div class="card shadow rounded-4">
-      <div class="card-header bg-info text-white rounded-top-4">
-        <h4 class="mb-0"><i class="bi bi-bell me-2"></i>Transaction Alerts</h4>
-      </div>
-      <div class="card-body p-4">
-        <div class="list-group">
-          <!-- Sample Notification 1 -->
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="mb-1">Debit Alert: Grocery Store</h5>
-              <p class="mb-1">You spent $75.00 at Grocery Store on 2025-04-23. Your balance is now $1,865.00.</p>
-              <small class="text-muted">2 hours ago</small>
-            </div>
-            <button class="btn btn-sm btn-outline-primary">View</button>
+  <div class="card shadow rounded-4">
+    <div class="card-header bg-info text-white rounded-top-4 d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="bi bi-bell me-2"></i>Transaction Alerts</h4>
+      <span *ngIf="unreadCount > 0" class="badge bg-danger rounded-pill">
+        {{ unreadCount }} New
+      </span>
+    </div>
+
+    <div class="card-body p-4">
+      <div class="list-group">
+        <div 
+          *ngFor="let notif of notifications" 
+          class="list-group-item d-flex justify-content-between align-items-center"
+          [ngClass]="{'opacity-50': !notif.read}"
+        >
+          <div>
+            <h5 class="mb-1">
+              {{ notif.title }}
+              <span *ngIf="!notif.read" class="badge bg-warning text-dark ms-2">Unread</span>
+            </h5>
+            <p class="mb-1" [class.text-muted]="!notif.read">
+              {{ notif.message }}
+            </p>
+            <small class="text-muted">{{ notif.timestamp | date:'short' }}</small>
           </div>
-  
-          <!-- Sample Notification 2 -->
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="mb-1">Credit Alert: Salary Deposit</h5>
-              <p class="mb-1">You received a salary deposit of $2,000.00 on 2025-04-22. Your balance is now $1,940.00.</p>
-              <small class="text-muted">1 day ago</small>
-            </div>
-            <button class="btn btn-sm btn-outline-primary">View</button>
-          </div>
-  
-          <!-- More notifications can be added dynamically -->
+
+          <button 
+            class="btn btn-sm btn-outline-primary"
+            (click)="markAsRead(notif.id)"
+            [disabled]="notif.read"
+          >
+            {{ notif.read ? 'Viewed' : 'View' }}
+          </button>
+        </div>
+
+        <div *ngIf="notifications.length === 0" class="text-center text-muted mt-3">
+          No notifications yet.
         </div>
       </div>
     </div>
   </div>
-  
+</div>
