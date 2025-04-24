@@ -4,4 +4,5 @@ export interface Account {
     balance: number;
     mask: string;
     type: 'Debit' | 'Savings';
+    frozen: boolean;
   }

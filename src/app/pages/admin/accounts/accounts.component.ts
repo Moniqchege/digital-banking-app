@@ -1,5 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AccountService } from '../../../core/services/accounts.service';
+import { Account } from '../../../core/models/account.model';
 
 interface BankAccount {
   id: string;
@@ -11,37 +14,57 @@ interface BankAccount {
 
 @Component({
   selector: 'app-accounts',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './accounts.component.html',
-  styleUrl: './accounts.component.css'
+  styleUrls: ['./accounts.component.css']
 })
 export class AccountsComponent {
-  bankAccounts: BankAccount[] = [
-    {
-      id: '1',
-      name: 'Alice Doe',
+  bankAccounts: Account[] = [];
+  showAccountForm = false;
+  selectedAccount: Account = this.getEmptyAccount();
+
+  constructor(private accountService: AccountService) {}
+
+  ngOnInit() {
+    this.bankAccounts = this.accountService.getAccounts();
+  }
+
+  editAccount(account: Account) {
+    this.selectedAccount = { ...account };
+    this.showAccountForm = true;
+  }
+
+  updateAccount() {
+    this.accountService.updateAccount(this.selectedAccount);
+    this.bankAccounts = this.accountService.getAccounts(); 
+    this.closeModal();
+  }
+
+  toggleFreeze(account: Account) {
+    const updated = { ...account, frozen: !account.frozen };
+    this.accountService.updateAccount(updated);
+    this.bankAccounts = this.accountService.getAccounts();
+  }
+
+  closeModal() {
+    this.showAccountForm = false;
+    this.selectedAccount = this.getEmptyAccount();
+  }
+
+  getEmptyAccount(): Account {
+    return {
+      id: '',
+      name: '',
+      mask: '',
       type: 'Savings',
       frozen: false,
-      balance: 10500.25
-    },
-    {
-      id: '2',
-      name: 'Bob Smith',
-      type: 'Checking',
-      frozen: true,
-      balance: 3120
-    }
-  ];
-
-  showAccountForm = false;
-
-  editAccount(account: BankAccount) {
-    console.log('Editing account:', account);
-    // Open modal or form to update account info
+      balance: 0
+    };
   }
 
   formatAmount(amount: number): string {
-    return 'KES ' + amount.toLocaleString('en-KE', {
+    return 'KSH ' + amount.toLocaleString('en-KE', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });

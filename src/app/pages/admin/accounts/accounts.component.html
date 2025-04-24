@@ -1,11 +1,11 @@
-<div class="admin-section">
-    <h2>Manage Bank Accounts</h2>
-    <button (click)="showAccountForm = true">+ Add Account</button>
+<div class="container mt-5">
+  <h3 class="mb-4">All Bank Accounts</h3>
   
-    <table class="admin-table">
-      <thead>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
         <tr>
-          <th>Account Name</th>
+          <th>Name</th>
           <th>Type</th>
           <th>Status</th>
           <th>Balance</th>
@@ -13,22 +13,64 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let acc of bankAccounts">
-          <td>{{ acc.name }}</td>
-          <td>{{ acc.type }}</td>
-          <td>{{ acc.frozen ? 'Frozen' : 'Active' }}</td>
-          <td>{{ formatAmount(acc.balance) }}</td>
+        <tr *ngFor="let account of bankAccounts">
+          <td>{{ account.name }}</td>
+          <td>{{ account.type }}</td>
           <td>
-            <button (click)="editAccount(acc)">Edit</button>
-            <button (click)="acc.frozen = !acc.frozen">
-              {{ acc.frozen ? 'Unfreeze' : 'Freeze' }}
+            <span [ngClass]="account.frozen ? 'badge bg-danger' : 'badge bg-success'">
+              {{ account.frozen ? 'Frozen' : 'Active' }}
+            </span>
+          </td>
+          <td>{{ formatAmount(account.balance) }}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="editAccount(account)">Edit</button>
+            <button class="btn btn-sm" 
+                    [ngClass]="account.frozen ? 'btn-success' : 'btn-danger'"
+                    (click)="toggleFreeze(account)">
+              {{ account.frozen ? 'Unfreeze' : 'Freeze' }}
             </button>
           </td>
         </tr>
       </tbody>
     </table>
-  
-    <div *ngIf="showAccountForm">
+  </div>
+
+<div class="modal-backdrop" *ngIf="showAccountForm" (click)="closeModal()"></div>
+
+<div class="modal d-block" *ngIf="showAccountForm" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header">
+        <button type="button" class="btn-close" (click)="closeModal()">x</button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control" placeholder="i" [(ngModel)]="selectedAccount.name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="accountType" class="form-label">Type</label>
+            <select id="accountType" class="form-select" [(ngModel)]="selectedAccount.type" name="type">
+              <option>Savings</option>
+              <option>Checking</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Balance</label>
+            <input type="number" placeholder="i" class="form-control" [(ngModel)]="selectedAccount.balance" name="balance">
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal Footer with action buttons -->
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn btn-success" (click)="updateAccount()">Update</button>
+      </div>
     </div>
   </div>
-  
+</div>
+
+</div>
