@@ -1,1 +1,29 @@
-<p>transactions works!</p>
+<div class="admin-section">
+    <h2>Search Transactions</h2>
+    <input
+      type="text"
+      placeholder="Search by name or type..."
+      [(ngModel)]="query"
+      class="search-input"
+    />
+  
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let txn of filteredTransactions()">
+          <td>{{ txn.name }}</td>
+          <td>{{ txn.type }}</td>
+          <td>{{ formatAmount(txn.amount) }}</td>
+          <td>{{ txn.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

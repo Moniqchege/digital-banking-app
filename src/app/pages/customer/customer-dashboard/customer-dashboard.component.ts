@@ -16,9 +16,9 @@ export class CustomerDashboardComponent implements OnInit {
   lastName = 'Chege';
   currentBalance = 1500000;
   userAccounts = [
-    {name: 'Savings', currentBalance: 50000},
-    {name: 'Current', currentBalance: 100000},
-    {name: 'Investment', currentBalance: 1000000}
+    {name: 'Savings', currentBalance: 150000},
+    {name: 'Current', currentBalance: 200000},
+    {name: 'Investment', currentBalance: 600000}
   ];
 
   recentTransactions = [

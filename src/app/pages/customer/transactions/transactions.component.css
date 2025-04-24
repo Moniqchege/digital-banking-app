@@ -1,0 +1,96 @@
+.transactions-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.transaction-card {
+  background-color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.transaction-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.transaction-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.transaction-date {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.transaction-type-badge {
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.transaction-type-badge.deposit {
+  background-color: #e0f7e9;
+  color: #2e7d32;
+}
+
+.transaction-type-badge.withdrawal {
+  background-color: #fbe9e7;
+  color: #d84315;
+}
+
+.transaction-type-badge.transfer {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.transaction-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.transaction-status {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.transaction-status.completed {
+  color: #4caf50;
+}
+
+.transaction-status.pending {
+  color: #ff9800;
+}
+
+.transaction-amount {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.transaction-amount.credit {
+  color: #4caf50;
+}
+
+.transaction-amount.debit {
+  color: #f44336;
+}

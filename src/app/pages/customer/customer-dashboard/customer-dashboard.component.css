@@ -16,7 +16,6 @@ h1 {
   .chart-container {
     width: 200px;
     height: 200px;
-    margin: 0 auto;
   }
   
   canvas {
@@ -25,16 +24,18 @@ h1 {
   }
   
   .account-summary {
-    width: 110%; /* ~10% larger */
+    width: auto;
     background-color: #f9f9f9;
     border-left: 4px solid #0747b6;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 0.3rem;
+    gap: 0.4rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
   }
   

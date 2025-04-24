@@ -27,12 +27,21 @@ export class DoughnutChartComponent implements OnInit, OnChanges {
   }
 
   initChart() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  
     if (this.chartRef && this.chartData && this.chartOptions && this.chartType) {
-      this.chart = new Chart(this.chartRef.nativeElement, {
-        type: this.chartType,
-        data: this.chartData,
-        options: this.chartOptions
-      });
+      const canvas = this.chartRef.nativeElement as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        this.chart = new Chart(ctx, {
+          type: this.chartType,
+          data: this.chartData,
+          options: this.chartOptions
+        });
+      }
     }
   }
+  
 }

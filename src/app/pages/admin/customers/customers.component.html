@@ -1,1 +1,28 @@
-<p>customers works!</p>
+<div class="admin-section">
+    <h2>Manage Customers</h2>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.email }}</td>
+          <td>{{ customer.active ? 'Active' : 'Inactive' }}</td>
+          <td>
+            <button (click)="viewCustomer(customer)">View</button>
+            <button (click)="toggleStatus(customer)">
+              {{ customer.active ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button (click)="editCustomer(customer)">Edit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

@@ -1,42 +1,69 @@
-<div class="container my-5">
-    <div class="card shadow rounded-4">
-      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
-        <h4 class="mb-0"><i class="bi bi-wallet2 me-2"></i>My Linked Accounts</h4>
-        <button class="btn btn-light btn-sm rounded-pill"><i class="bi bi-plus-lg"></i> Add Account</button>
+<div class="account-container">
+  <div class="bank-card" *ngFor="let account of accounts">
+    <div class="bank-card_content">
+      <div class="header">
+        <h1 class="account-name">{{ account.name }}</h1>
+        <p class="account-balance">{{ formatAmount(account.balance) }}</p>
       </div>
-      <div class="card-body p-4">
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-          <!-- Account Card 1 -->
-          <div class="col">
-            <div class="card border-0 shadow-sm h-100 rounded-3">
-              <div class="card-body">
-                <h5 class="card-title text-primary"><i class="bi bi-bank2 me-2"></i>Savings Account</h5>
-                <p class="card-text text-muted">Account No: 1234 5678 9012</p>
-                <h4 class="text-success fw-bold">$5,430.00</h4>
-              </div>
-              <div class="card-footer bg-transparent d-flex justify-content-end">
-                <button class="btn btn-outline-primary btn-sm"><i class="bi bi-eye"></i> View</button>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Account Card 2 -->
-          <div class="col">
-            <div class="card border-0 shadow-sm h-100 rounded-3">
-              <div class="card-body">
-                <h5 class="card-title text-primary"><i class="bi bi-credit-card-2-front me-2"></i>Checking Account</h5>
-                <p class="card-text text-muted">Account No: 9876 5432 1098</p>
-                <h4 class="text-danger fw-bold">$1,240.75</h4>
-              </div>
-              <div class="card-footer bg-transparent d-flex justify-content-end">
-                <button class="btn btn-outline-primary btn-sm"><i class="bi bi-eye"></i> View</button>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Add more account cards dynamically if needed -->
+
+      <article class="account-details">
+        <div class="account-info">
+          <h1 class="user-name">{{ userName }}</h1>
+          <h2 class="card-mask">●● / ●●</h2>
         </div>
-      </div>
+        <p class="account-number">●●●● ●●●● ●●●● <span class="mask">{{ account.mask }}</span></p>
+      </article>
     </div>
+
+    <div class="bank-card_icons">
+      <img src="/assets/icons/Paypass.svg" width="20" height="24" alt="pay" />
+      <i class="fa-brands fa-cc-mastercard fa-2xl ml-5 text-white"></i>
+    </div>
+
+    <img src="/assets/icons/lines.png" width="316" height="190" alt="lines" class="card-background" />
   </div>
-  
+</div>
+
+<div class="add-account-container">
+  <button class="add-account-btn" (click)="toggleModal()">+ Add Account</button>
+</div>
+
+<div class="modal-overlay" *ngIf="showModal" (click)="toggleModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h2>Create New Account</h2>
+    <form (ngSubmit)="createAccount()" #accountForm="ngForm">
+      <input
+        type="text"
+        placeholder="Account Name"
+        [(ngModel)]="newAccount.name"
+        name="name"
+        required
+      />
+
+      <select
+        title="Select Account Type"
+        [(ngModel)]="newAccount.type"
+        name="type"
+        required
+      >
+        <option value="" disabled selected>Select Type</option>
+        <option value="Savings">Savings</option>
+        <option value="Current">Current</option>
+        <option value="Investment">Investment</option>
+      </select>
+
+      <input
+        type="number"
+        placeholder="Initial Balance"
+        [(ngModel)]="newAccount.balance"
+        name="balance"
+        required
+      />
+
+      <div class="modal-buttons">
+        <button type="submit" [disabled]="!accountForm.form.valid">Create</button>
+        <button type="button" class="cancel-btn" (click)="toggleModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

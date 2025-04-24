@@ -6,13 +6,14 @@
       </div>
     </div>
   
-    <div class="row mt-4 align-items-center">
+    <div class="d-flex mt-4 align-items-start gap-">
+      <div class="chart-container">
         <app-doughnut-chart
         [chartType]="'doughnut'"
         [chartData]="accountStatusData"
         [chartOptions]="accountStatusOptions"
         ></app-doughnut-chart>
-      r
+      </div>
       <div class="col-md-6 account-summary">
         <h3>Bank Accounts: 3</h3>
         <h4>Current Total Balance: ${{currentBalance}}</h4>

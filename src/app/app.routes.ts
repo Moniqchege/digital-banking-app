@@ -107,6 +107,13 @@ export const routes: Routes = [
             (m) => m.AuditLogsComponent
           ),
       },
+      {
+        path: 'pending-transactions',
+        loadComponent: () =>
+          import('./pages/admin/pending-transactions/pending-transactions.component').then(
+            (m) => m.PendingTransactionsComponent
+          ),
+      },
     ],
   },
   {
