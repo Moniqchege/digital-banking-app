@@ -22,7 +22,7 @@ export class AccountsComponent {
       mask: '3456'
     },
     {
-      name: 'Current',
+      name: 'Debit',
       accountNumber: '9876543210987654',
       balance: 12000,
       currency: 'USD',

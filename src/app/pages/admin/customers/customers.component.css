@@ -1,0 +1,90 @@
+.admin-section {
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .admin-section h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+  }
+  
+  .admin-table th, .admin-table td {
+    padding: 12px 18px;
+    text-align: left;
+    font-size: 1rem;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .admin-table th {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .admin-table tbody tr:hover {
+    background-color: #f8f9fa;
+  }
+  
+  button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+    border: none;
+  }
+  
+  button.view-btn {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  button.view-btn:hover {
+    background-color: #2980b9;
+  }
+  
+  button.activate-btn {
+    background-color: #27ae60;
+    color: white;
+  }
+  
+  button.activate-btn:hover {
+    background-color: #2ecc71;
+  }
+  
+  button.deactivate-btn {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  button.deactivate-btn:hover {
+    background-color: #c0392b;
+  }
+  
+  button.edit-btn {
+    background-color: #f39c12;
+    color: white;
+  }
+  
+  button.edit-btn:hover {
+    background-color: #e67e22;
+  }
+  
+  button + button {
+    margin-left: 10px;
+  }
+  
