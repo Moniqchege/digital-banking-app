@@ -1,0 +1,60 @@
+.admin-section {
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin: 30px auto;
+    max-width: 900px;
+  }
+  
+  .admin-section h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .search-input {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 24px;
+    padding: 10px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    background-color: #fff;
+  }
+  
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .admin-table thead {
+    background-color: #f1f5f9;
+  }
+  
+  .admin-table th, 
+  .admin-table td {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .admin-table tbody tr:hover {
+    background-color: #f9fafb;
+  }
+  
