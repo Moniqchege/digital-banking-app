@@ -55,6 +55,7 @@ export class AccountsComponent {
   getEmptyAccount(): Account {
     return {
       id: '',
+      userId: '',
       name: '',
       mask: '',
       type: 'Savings',
@@ -64,9 +65,7 @@ export class AccountsComponent {
   }
 
   formatAmount(amount: number): string {
-    return 'KSH ' + amount.toLocaleString('en-KE', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    });
+    return `$${amount.toFixed(2)}`;
   }
+  
 }

@@ -26,6 +26,7 @@ export class NotificationsComponent implements OnInit {
       this.unreadCount = this.notifications.filter(n => !n.read).length;
     });
   }
+  
 
   markAsRead(id: string): void {
     this.notificationService.markAsRead(id);

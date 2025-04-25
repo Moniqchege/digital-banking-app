@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Notification } from '../models/notification.model';
 import { v4 as uuidv4 } from 'uuid';
+import { UserService } from './user.service'; // Make sure UserService is imported
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,17 @@ export class NotificationService {
   private notifications: Notification[] = [];
   private notificationSubject = new BehaviorSubject<Notification[]>([]);
 
-  constructor() {
-    const stored = localStorage.getItem('notifications');
+  constructor(private userService: UserService) {
+    // Listen for logged-in user changes
+    this.userService.loggedInUser$.subscribe(user => {
+      if (user) {
+        this.loadNotifications(user.id);
+      }
+    });
+  }
+
+  loadNotifications(userId: string) {
+    const stored = localStorage.getItem(`notifications_${userId}`);
     if (stored) {
       this.notifications = JSON.parse(stored);
       this.notificationSubject.next(this.notifications);
@@ -29,9 +39,10 @@ export class NotificationService {
       message,
       timestamp: new Date().toISOString(),
       read: false,
-      type
+      type,
     };
-    this.notifications.unshift(newNotif); 
+
+    this.notifications.unshift(newNotif);
     this.updateStorage();
   }
 
@@ -42,7 +53,10 @@ export class NotificationService {
   }
 
   private updateStorage() {
-    localStorage.setItem('notifications', JSON.stringify(this.notifications));
-    this.notificationSubject.next(this.notifications);
+    const user = this.userService.getLoggedInUser();
+    if (user) {
+      localStorage.setItem(`notifications_${user.id}`, JSON.stringify(this.notifications));
+      this.notificationSubject.next(this.notifications);
+    }
   }
 }

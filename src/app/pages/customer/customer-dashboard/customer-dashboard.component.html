@@ -1,54 +1,63 @@
 <div class="container mt-4">
-    <!-- Welcome Section -->
-    <div class="row">
-      <div class="col-md-12">
-        <h1>Welcome, {{firstName}}!</h1>
-      </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Welcome, {{ firstName }}!</h1>
     </div>
-  
-    <div class="d-flex mt-4 align-items-start gap-">
-      <div class="chart-container">
-        <app-doughnut-chart
+  </div>
+
+  <div class="d-flex mt-4 align-items-start gap-4">
+    <div class="chart-container">
+      <app-doughnut-chart
         [chartType]="'doughnut'"
         [chartData]="accountStatusData"
         [chartOptions]="accountStatusOptions"
-        ></app-doughnut-chart>
-      </div>
-      <div class="col-md-6 account-summary">
-        <h3>Bank Accounts: 3</h3>
-        <h4>Current Total Balance: ${{currentBalance}}</h4>
-      </div>
+      ></app-doughnut-chart>
     </div>
-  
-    <!-- Recent Transactions -->
-    <div class="row mt-4">
-      <div class="col-md-12">
-        <h3>Recent Transactions</h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Account No</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let transaction of recentTransactions">
-              <td>{{ transaction.accountNo }}</td>
-              <td>\${{ transaction.amount }}</td>
-              <td [ngClass]="{
-                'text-success': transaction.status === 'Success',
-                'text-warning': transaction.status === 'Pending',
-                'text-danger': transaction.status === 'Rejected'
-              }">
-                {{ transaction.status }}
-              </td>
-              <td>{{ transaction.date }}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="col-md-6 account-summary">
+      <h3>Bank Accounts: {{ userAccounts.length }}</h3>
+      <h4>Current Total Balance: {{ currentBalance | currency }}</h4>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h3>Recent Transactions</h3>
+      <div class="transactions-container">
+        <div class="transaction-header">
+          <span class="header-item">Transaction Name</span>
+          <span class="header-item">Amount</span>
+          <span class="header-item">Status</span>
+          <span class="header-item">Date</span>
+          <span class="header-item">Category</span>
+        </div>
+
+        <div *ngFor="let txn of recentTransactions" class="transaction-card">
+          <div class="transaction-row">
+            <span>{{ txn.name }}</span>
+            <span
+              [ngClass]="{
+                credit: txn.amount > 0,
+                debit: txn.amount < 0
+              }"
+            >
+              {{ txn.amount | currency }}
+            </span>
+            <span
+              class="transaction-item status"
+              [ngClass]="{
+                completed: txn.status === 'Completed',
+                pending: txn.status === 'Pending'
+              }"
+            >
+              {{ txn.status }}
+            </span>
+            <span>{{ txn.date }}</span>
+            <span class="transaction-item category" [ngClass]="txn.category.toLowerCase()">
+              {{ txn.category }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  
+</div>

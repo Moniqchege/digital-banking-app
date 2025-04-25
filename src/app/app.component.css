@@ -1,3 +1,50 @@
+
+.navbar {
+  position: relative;
+}
+
+.notification-icon {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
+  font-size: 1.5rem;
+  margin-right: 12px;
+}
+
+.notification-icon i {
+  color: white;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -7px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  padding: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 16px;
+  text-align: center;
+}
+
+.notification-badge:empty {
+  display: none;
+}
+
+
+.navbar-nav .nav-link {
+  color: white;
+  font-size: 1rem;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #f8f9fa;
+}
+
+
 .sidebar {
   display: none;
   position: fixed;

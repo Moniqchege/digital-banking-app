@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { UserService } from './core/services/user.service';
+import { NotificationService } from './core/services/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,13 @@ export class AppComponent implements OnInit {
 
   userRole: string | null = null;
   isLoggedIn = false;
+  unreadCount = 0;
+  showNotifications = false;
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private notificationService: NotificationService
   ){}
 
   ngOnInit(): void {
@@ -30,6 +34,14 @@ export class AppComponent implements OnInit {
         this.isLoggedIn = false;
       }
     });
+
+    this.notificationService.getNotifications().subscribe((notifications) => {
+      this.unreadCount = notifications.filter(n => !n.read).length;
+    });
+  }
+
+  toggleNotifications():void {
+    this.showNotifications = !this.showNotifications;
   }
 
   logout(): void {

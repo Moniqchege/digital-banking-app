@@ -5,4 +5,5 @@ export interface Transaction {
   status: 'Completed' | 'Pending';
   amount: number;
   category: 'Deposit' | 'Withdraw';
+  userId: string;
 }

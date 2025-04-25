@@ -55,25 +55,16 @@ export class LoginComponent {
 
   onRegister() {
     try {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const validUsers = users.filter((u: any) => u?.email);
-
-      const exists = validUsers.find(
-        (u: any) =>
-          (u.email || '').trim().toLowerCase() ===
-          (this.customerObj.email || '').trim().toLowerCase()
-      );
-
-      if (exists) throw new Error('User already exists');
-
       this.customerObj.role = 'Customer';
-      validUsers.push(this.customerObj);
-
-      localStorage.setItem('users', JSON.stringify(validUsers));
+      this.customerObj.id = ''; 
+  
+      this.userService.register(this.customerObj);
+  
       alert('Registration Successful!');
       this.showRegisterForm.set(false);
     } catch (err: any) {
       alert(err.message);
     }
   }
+  
 }

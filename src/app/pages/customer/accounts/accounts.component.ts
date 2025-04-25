@@ -3,18 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../../core/services/accounts.service';
 import { TransactionService } from '../../../core/services/transaction.service';
-import { Account } from '../../../core/models/account.model'; 
+import { Account } from '../../../core/models/account.model';
 import { Transaction } from '../../../core/models/transaction.model';
 import { NotificationService } from '../../../core/services/notification.service';
 import { Notification } from '../../../core/models/notification.model';
-
 
 @Component({
   selector: 'app-accounts',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './accounts.component.html',
-  styleUrls: ['./accounts.component.css']
+  styleUrls: ['./accounts.component.css'],
 })
 export class AccountsComponent {
   fullName = 'Monicah Chege';
@@ -32,7 +31,16 @@ export class AccountsComponent {
   ) {}
 
   ngOnInit(): void {
-    this.accounts = this.accountService.getAccounts();
+    const storedUser = localStorage.getItem('loggedInUser');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      this.fullName = `${user.firstName} ${user.lastName}`;
+      const userId = user.id;
+
+      this.accounts = this.accountService
+        .getAccounts()
+        .filter((account) => account.userId === userId);
+    }
   }
 
   openTransactionModal(account: Account, type: 'deposit' | 'withdraw') {
@@ -56,7 +64,8 @@ export class AccountsComponent {
       return;
     }
   
-    const transactionType: 'Deposit' | 'Withdrawal' = this.transactionType === 'deposit' ? 'Deposit' : 'Withdrawal';
+    const transactionType: 'Deposit' | 'Withdrawal' =
+      this.transactionType === 'deposit' ? 'Deposit' : 'Withdrawal';
     let success = true;
     let failureReason = '';
   
@@ -75,6 +84,13 @@ export class AccountsComponent {
     if (success) {
       this.accountService.updateAccount(this.currentAccount);
   
+      const storedUser = localStorage.getItem('loggedInUser');
+      let userId: string | undefined = undefined;
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        userId = user.id;
+      }
+  
       const newTransaction: Transaction = {
         name: `${this.currentAccount.type} ${transactionType}`,
         date: new Date().toISOString().split('T')[0],
@@ -82,6 +98,7 @@ export class AccountsComponent {
         status: 'Completed',
         amount: this.transactionAmount,
         category: transactionType === 'Deposit' ? 'Deposit' : 'Withdraw',
+        userId: userId!,  
       };
   
       this.transactionService.addTransaction(newTransaction);
@@ -93,7 +110,11 @@ export class AccountsComponent {
     this.notificationService.addNotification(
       `${transactionType} ${success ? 'Successful' : 'Failed'}`,
       success
-        ? `You ${transactionType === 'Deposit' ? 'deposited' : 'withdrew'} KES ${this.transactionAmount.toFixed(2)} on ${new Date().toLocaleDateString()}.`
+        ? `You ${
+            transactionType === 'Deposit' ? 'deposited' : 'withdrew'
+          } $$ ${this.transactionAmount.toFixed(
+          2
+        )} on ${new Date().toLocaleDateString()}.`
         : `Failed to ${transactionType.toLowerCase()}: ${failureReason}`,
       success ? 'success' : 'error'
     );
@@ -101,11 +122,12 @@ export class AccountsComponent {
   
 
   formatAmount(amount: number): string {
-    return `KES ${amount.toFixed(2)}`;
+    return `$${amount.toFixed(2)}`;
   }
+  
 
   addNewAccount(account: Account) {
     this.accountService.addAccount(account);
-    this.accounts = this.accountService.getAccounts(); 
+    this.accounts = this.accountService.getAccounts();
   }
 }

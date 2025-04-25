@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    
     this.userService.loggedInUser$.subscribe(user => {
       if (user) {
         this.userName = user.name || '';
@@ -36,13 +37,16 @@ export class ProfileComponent implements OnInit {
       role: 'User'
     };
 
+    
     const users = JSON.parse(localStorage.getItem('users') || '[]');
+    
+    
     const index = users.findIndex((u: any) => u.email === this.userEmail);
     if (index !== -1) {
       users[index] = { ...users[index], ...updatedUser };
       localStorage.setItem('users', JSON.stringify(users));
       localStorage.setItem('loggedInUser', JSON.stringify(users[index]));
-      this.userService.refreshUser(users[index]);
+      this.userService.refreshUser(users[index]);  
     }
   }
 }

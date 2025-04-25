@@ -39,4 +39,43 @@ export class AccountService {
   private saveToLocalStorage(): void {
     localStorage.setItem('accounts', JSON.stringify(this.accounts));
   }
+
+  createDefaultAccountsForUser(userId: string, name: string) {
+    const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+  
+    const defaultAccounts = [
+      {
+        id: crypto.randomUUID(),
+        userId,
+        name: `${name}'s Debit Account`,
+        balance: 10000,
+        mask: '**** 1234',
+        type: 'Debit',
+        frozen: false
+      },
+      {
+        id: crypto.randomUUID(),
+        userId,
+        name: `${name}'s Savings Account`,
+        balance: 10000,
+        mask: '**** 5678',
+        type: 'Savings',
+        frozen: false
+      }
+    ];
+  
+    const updatedAccounts = [...accounts, ...defaultAccounts];
+    localStorage.setItem('accounts', JSON.stringify(updatedAccounts));
+  }
+  
+  
+  private generateAccountMask(): string {
+    return '****' + Math.floor(1000 + Math.random() * 9000).toString(); // e.g., ****1234
+  }
+  
+  
+  private generateAccountNumber(): string {
+    return 'ACCT-' + Math.floor(100000 + Math.random() * 900000); // random 6-digit number
+  }
+  
 }

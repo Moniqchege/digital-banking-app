@@ -38,4 +38,114 @@ h1 {
     margin-left: 2rem;
     margin-top: 2rem;
   }
+
+  
+.transactions-container {
+  padding: 20px;
+}
+
+
+.transaction-header {
+  display: flex;
+  font-weight: bold;
+  background-color: #f4f4f4;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.header-item {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+}
+
+
+.transaction-card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.transaction-row {
+  display: flex;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+}
+
+.transaction-row > span {
+  flex: 1; 
+  text-align: center;
+}
+
+
+.transaction-item {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+  position: relative;
+}
+
+
+.completed {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border-color: #4CAF50;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+  padding: 4px 1px; 
+}
+
+.pending {
+  background-color: rgba(255, 152, 0, 0.2);
+  color: #FF9800;
+  border-color: #FF9800;
+  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.4);
+  padding: 4px 1px; 
+}
+
+.deposit {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #4CAF50;
+  border-color: #4CAF50;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+  padding: 4px 1px; 
+}
+
+.withdraw {
+  background-color: rgba(255, 87, 34, 0.2);
+  color: #FF5722;
+  border-color: #FF5722;
+  box-shadow: 0 4px 8px rgba(255, 87, 34, 0.4);
+  padding: 4px 1px; 
+}
+
+
+.transaction-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: inherit;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-item:nth-child(1),
+.transaction-item:nth-child(5) {
+  font-weight: bold;
+}
+
+
+
+
+
+
+
   
