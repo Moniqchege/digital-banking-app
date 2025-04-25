@@ -4,22 +4,23 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Email</th>
+          <th>Email Address</th>
+          <th>Accounts</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let customer of customers">
-          <td>{{ customer.name }}</td>
-          <td>{{ customer.email }}</td>
-          <td>{{ customer.active ? 'Active' : 'Inactive' }}</td>
+        <tr *ngFor="let user of users">
+          <td>{{ user.firstName }} {{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ getAccountCount(user.id) }}</td>
+          <td>{{ user.active ? 'Active' : 'Inactive' }}</td>
           <td>
-            <button (click)="viewCustomer(customer)">View</button>
-            <button (click)="toggleStatus(customer)">
-              {{ customer.active ? 'Deactivate' : 'Activate' }}
+            
+            <button (click)="toggleStatus(user)">
+              {{ user.active ? 'Deactivate' : 'Activate' }}
             </button>
-            <button (click)="editCustomer(customer)">Edit</button>
           </td>
         </tr>
       </tbody>

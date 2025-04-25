@@ -16,6 +16,8 @@ import { Transaction } from '../../../core/models/transaction.model';
 export class CustomerDashboardComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
+  user: any = null;
+  deactivatedMessage: string | null = null;
   userAccounts: Account[] = [];
   recentTransactions: Transaction[] = [];
   currentBalance: number = 0;

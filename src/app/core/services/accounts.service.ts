@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Account } from '../models/account.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountService {
   private accounts: Account[] = [];
@@ -19,7 +19,9 @@ export class AccountService {
   }
 
   addAccount(newAccount: Account): void {
-    const exists = this.accounts.some(account => account.id === newAccount.id);
+    const exists = this.accounts.some(
+      (account) => account.id === newAccount.id
+    );
     if (!exists) {
       this.accounts.push(newAccount);
       this.saveToLocalStorage();
@@ -29,7 +31,9 @@ export class AccountService {
   }
 
   updateAccount(updatedAccount: Account): void {
-    const index = this.accounts.findIndex(acc => acc.id === updatedAccount.id);
+    const index = this.accounts.findIndex(
+      (acc) => acc.id === updatedAccount.id
+    );
     if (index !== -1) {
       this.accounts[index] = updatedAccount;
       this.saveToLocalStorage();
@@ -42,7 +46,7 @@ export class AccountService {
 
   createDefaultAccountsForUser(userId: string, name: string) {
     const accounts = JSON.parse(localStorage.getItem('accounts') || '[]');
-  
+
     const defaultAccounts = [
       {
         id: crypto.randomUUID(),
@@ -51,7 +55,7 @@ export class AccountService {
         balance: 10000,
         mask: '**** 1234',
         type: 'Debit',
-        frozen: false
+        frozen: false,
       },
       {
         id: crypto.randomUUID(),
@@ -60,22 +64,30 @@ export class AccountService {
         balance: 10000,
         mask: '**** 5678',
         type: 'Savings',
-        frozen: false
-      }
+        frozen: false,
+      },
     ];
-  
+
     const updatedAccounts = [...accounts, ...defaultAccounts];
     localStorage.setItem('accounts', JSON.stringify(updatedAccounts));
   }
-  
-  
+
   private generateAccountMask(): string {
     return '****' + Math.floor(1000 + Math.random() * 9000).toString(); // e.g., ****1234
   }
-  
-  
+
   private generateAccountNumber(): string {
     return 'ACCT-' + Math.floor(100000 + Math.random() * 900000); // random 6-digit number
   }
+
+  getAccountsByUserId(userId: string) {
+    const allAccounts = JSON.parse(localStorage.getItem('accounts') || '[]');
+    return allAccounts.filter((account: any) => account.userId === userId);
+  }
   
+
+  hasFrozenAccount(userId: string): boolean {
+    const userAccounts = this.getAccountsByUserId(userId);
+    return userAccounts.some((acc: Account) => acc.frozen);
+  }
 }

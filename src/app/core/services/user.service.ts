@@ -7,7 +7,7 @@ export class UserService {
   private loggedInUserSubject = new BehaviorSubject<any>(null);
   loggedInUser$ = this.loggedInUserSubject.asObservable();
 
-  constructor( private accountService: AccountService) {
+  constructor(private accountService: AccountService) {
     const user = localStorage.getItem('loggedInUser');
     if (user) {
       this.loggedInUserSubject.next(JSON.parse(user));
@@ -24,6 +24,7 @@ export class UserService {
     if (exists) throw new Error('User already exists');
 
     user.id = crypto.randomUUID();
+    user.active = true; 
 
     users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
@@ -54,6 +55,15 @@ export class UserService {
     );
     console.log('Logged in as:', user);
     if (!user) throw new Error('Invalid Email or Password');
+
+    if (!user.active) {
+      throw new Error('Account deactivated. Please visit nearest branch.');
+    }
+
+    if (this.accountService.hasFrozenAccount(user.id)) {
+      throw new Error('Account frozen due to suspicious activity!');
+    }
+
     localStorage.setItem('loggedInUser', JSON.stringify(user));
     this.loggedInUserSubject.next(user);
     return user;

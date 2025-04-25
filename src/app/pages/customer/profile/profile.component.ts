@@ -14,9 +14,13 @@ export class ProfileComponent implements OnInit {
   userPhone = '';
   userAddress = '';
 
+  user: any = null;
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+
+    // this.user = this.userService.loggedInUserSubject.value;
     
     this.userService.loggedInUser$.subscribe(user => {
       if (user) {
