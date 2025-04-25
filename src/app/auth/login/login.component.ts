@@ -43,7 +43,7 @@ export class LoginComponent {
     try {
       const user = this.userService.login(this.loginObj.email, this.loginObj.password);
       if (user.role === 'Admin') {
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/admin/customers']);
       } else {
         this.router.navigate(['/customer/dashboard']);
       }

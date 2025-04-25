@@ -1,25 +1,31 @@
-<div class="admin-section">
-    <h2>Approve/Reject Transactions</h2>
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>Transaction</th>
-          <th>User</th>
-          <th>Amount</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let txn of pendingTxns">
-          <td>{{ txn.name }}</td>
-          <td>{{ txn.user }}</td>
-          <td>{{ formatAmount(txn.amount) }}</td>
-          <td>
-            <button (click)="approve(txn)">Approve</button>
-            <button (click)="reject(txn)">Reject</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="pending-transactions-section">
+  <h2>Approved/Rejected Transactions</h2>
   
+  <table class="pending-transactions-table">
+    <thead>
+      <tr>
+        <th>Customer Full Name</th>
+        <th>From Account</th>
+        <th>To Account</th>
+        <th>Amount</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let txn of pendingTxns$ | async">
+        <td>{{ getUserFullName(txn.userId) }}</td>
+        <td>{{ txn.fromAccount?.type }}</td>
+        <td>{{ txn.toAccount?.type }}</td>
+        <td>{{ formatAmount(txn.amount) }}</td>
+        <td>
+          <span class="status-badge" [ngClass]="{
+            'approved': txn.status === 'Approved',
+            'rejected': txn.status === 'Rejected'
+          }">
+            {{ txn.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
