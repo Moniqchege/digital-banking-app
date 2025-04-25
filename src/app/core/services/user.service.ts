@@ -51,4 +51,15 @@ export class UserService {
     localStorage.removeItem('loggedInUser');
     this.loggedInUserSubject.next(null);
   }
+
+  getToken(): string | null {
+    const user = localStorage.getItem('loggedInUser');
+    return user ? 'token' : null; 
+  }
+
+  refreshUser(user: any) {
+    this.loggedInUserSubject.next(user);
+  }
+  
+  
 }

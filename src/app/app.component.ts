@@ -2,11 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { UserService } from './core/services/user.service';
-import { AccountsComponent } from "./pages/customer/accounts/accounts.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, RouterLink, AccountsComponent],
+  imports: [RouterOutlet, CommonModule, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

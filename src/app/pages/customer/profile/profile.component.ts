@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../core/services/user.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -8,18 +9,40 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  userName: string = 'John Doe';   // Example user name
-  userEmail: string = 'johndoe@example.com';  // Example email
-  userPhone: string = '+1234567890';  // Example phone number
-  userAddress: string = '123 Main St, City, Country';  // Example address
+  userName = '';
+  userEmail = '';
+  userPhone = '';
+  userAddress = '';
 
-  constructor() { }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    // Here you can fetch the profile data from an API or local storage
+    this.userService.loggedInUser$.subscribe(user => {
+      if (user) {
+        this.userName = user.name || '';
+        this.userEmail = user.email || '';
+        this.userPhone = user.phone || '';
+        this.userAddress = user.address || '';
+      }
+    });
   }
 
   saveChanges() {
-    console.log('Profile updated:', this.userName, this.userEmail, this.userPhone, this.userAddress);
+    const updatedUser = {
+      name: this.userName,
+      email: this.userEmail,
+      phone: this.userPhone,
+      address: this.userAddress,
+      role: 'User'
+    };
+
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const index = users.findIndex((u: any) => u.email === this.userEmail);
+    if (index !== -1) {
+      users[index] = { ...users[index], ...updatedUser };
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('loggedInUser', JSON.stringify(users[index]));
+      this.userService.refreshUser(users[index]);
+    }
   }
 }
