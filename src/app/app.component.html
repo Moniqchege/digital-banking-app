@@ -13,7 +13,6 @@
     <div class="collapse navbar-collapse" id="mynavbar">
       <ng-container *ngIf="userRole === 'Admin'">
         <ul class="navbar-nav me-auto">
-          
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/customers">Customers</a>
           </li>
@@ -21,9 +20,7 @@
             <a class="nav-link" routerLink="/admin/accounts">Accounts</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/admin/transactions"
-              >Transactions</a
-            >
+            <a class="nav-link" routerLink="/admin/transactions">Transactions</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/admin/audit-logs">Pending Transactions</a>
@@ -33,6 +30,7 @@
           </li>
         </ul>
       </ng-container>
+
       <ng-container *ngIf="userRole === 'Customer'">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
@@ -55,11 +53,14 @@
           </li>
         </ul>
       </ng-container>
-      
-      <div class="notification-icon" (click)="toggleNotifications()">
-        <i class="fa-solid fa-user"></i>
-        <span *ngIf="unreadCount > 0" class="notification-badge">{{ unreadCount }}</span>
-      </div>
+
+      <!-- Only show this icon if the user is a Customer -->
+      <ng-container *ngIf="userRole === 'Customer'">
+        <div class="notification-icon" (click)="toggleNotifications()">
+          <i class="fa-solid fa-user"></i>
+          <span *ngIf="unreadCount > 0" class="notification-badge">{{ unreadCount }}</span>
+        </div>
+      </ng-container>
 
       <div class="d-flex">
         <button *ngIf="!isLoggedIn" class="btn btn-primary" routerLink="/login">

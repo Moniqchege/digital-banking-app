@@ -104,7 +104,6 @@ export class AccountsComponent {
       this.transactionService.addTransaction(newTransaction);
       this.toggleModal();
   
-      alert(`${transactionType} successful!`);
     }
   
     this.notificationService.addNotification(

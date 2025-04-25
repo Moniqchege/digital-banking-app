@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Transfer } from '../../../core/models/transfer.model';
 import { TransferService } from '../../../core/services/transfer.service';
 import { UserService } from '../../../core/services/user.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 interface Transaction {
   id: string;
@@ -23,7 +24,8 @@ export class AuditLogsComponent implements OnInit {
 
   constructor(
     private transferService: TransferService,
-    private userService: UserService
+    private userService: UserService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -32,9 +34,7 @@ export class AuditLogsComponent implements OnInit {
 
   getUserFullName(userId: string): string {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-
     const user = users.find((u:any) => u.id === userId);
-
     if (user) {
       return user.firstName + ' ' + user.lastName;
     }
@@ -42,13 +42,48 @@ export class AuditLogsComponent implements OnInit {
   }
 
   approve(txn: Transfer): void {
+    
     this.transferService.updateTransferStatus(txn.id, 'Approved');
+    
+    
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const sender = users.find((u: any) => u.id === txn.fromAccount.id);
+    const receiver = users.find((u: any) => u.id === txn.toAccount.id);
+    
+    if (sender && receiver) {
+      
+      sender.balance -= txn.amount;
+
+      
+      receiver.balance += txn.amount;
+
+      
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      this.notificationService.addNotification(
+        'Transfer Approved',
+      'The transfer has been approved successfully.',
+      'success'
+      );
+    }
+
+    
     this.removeFromPending(txn);
   }
 
+
   reject(txn: Transfer): void {
+    // Only update the status to 'Rejected'
     this.transferService.updateTransferStatus(txn.id, 'Rejected');
+    
+    // No balance change, just remove from pending
     this.removeFromPending(txn);
+    
+    this.notificationService.addNotification(
+      'Transfer Rejected',
+    'The transfer has been rejected.',
+    'error'
+    );
   }
 
   removeFromPending(txn: Transfer): void {

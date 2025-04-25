@@ -7,6 +7,7 @@ import { Transfer } from '../../../core/models/transfer.model';
 import { TransferService } from '../../../core/services/transfer.service';
 import { AccountService } from '../../../core/services/accounts.service';
 import { v4 as uuidv4 } from 'uuid';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-transfer',
@@ -26,6 +27,7 @@ export class TransferComponent implements OnInit {
   constructor(
     private transferService: TransferService,
     private accountService: AccountService,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
@@ -38,7 +40,7 @@ export class TransferComponent implements OnInit {
         .getAccountsByUserId(this.userId)
         .filter((a: Account) => a.type === 'Debit' || a.type === 'Savings');
         
-        console.log('User Accounts in ngOnInit:', this.userAccounts); // Log accounts to verify
+        console.log('User Accounts in ngOnInit:', this.userAccounts); 
 
       this.transfers = this.transferService.getTransfersByUser(this.userId);
     }
@@ -58,16 +60,21 @@ export class TransferComponent implements OnInit {
   
       if (!fromAccount || !toAccount) {
         alert('Invalid account selected.');
-        return; // Exit if accounts are not found
+        return; 
+      }
+
+      if (fromAccount.balance < this.amount) {
+        alert('Insufficient funds in the source account!');
+        return;
       }
   
-      // Create transfer with account names
+      
       const newTransfer: Transfer = {
         id: uuidv4(),
         fromAccount: fromAccount,
-        fromAccountName: fromAccount.name,  // Use account name
+        fromAccountName: fromAccount.name,  
         toAccount: toAccount,
-        toAccountName: toAccount.name,      // Use account name
+        toAccountName: toAccount.name,      
         amount: this.amount,
         status: 'Pending',
         createdAt: new Date().toISOString(),
@@ -76,8 +83,21 @@ export class TransferComponent implements OnInit {
   
       this.transferService.addTransfer(newTransfer);
       this.transfers.push(newTransfer);
+
+      fromAccount.balance -= this.amount;  // Deduct from 'from' account
+      toAccount.balance += this.amount; 
+
+      this.accountService.updateAccount(fromAccount);
+    this.accountService.updateAccount(toAccount);
+
+      this.transferService.updateTransferStatus(newTransfer.id, 'Pending'); 
+    this.notificationService.addNotification(
+      'Transfer Pending',
+      `Your transfer of $${this.amount} to ${toAccount.name} is pending.`,
+      'success'
+    );
   
-      // Reset form values
+      
       this.fromAccountId = '';
       this.toAccountId = '';
       this.amount = null;
